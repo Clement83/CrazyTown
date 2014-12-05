@@ -36,13 +36,12 @@ void updatePlayer(){
 
   //friction
   switch(currentTile){
-  case 1:
   case 0: //road
     player.v *= 0.95;
     player.vx *= 0.9;
     player.vy *= 0.9;
     break;
-  case 5: //sand
+ /* case 5: //sand
     player.v *= 0.9;
     player.vx *= 0.8;
     player.vy *= 0.8;
@@ -56,7 +55,7 @@ void updatePlayer(){
     player.v *= 0.95;
     player.vx *= 0.9;
     player.vy *= 0.9;
-    break;
+    break;*/
   }
 /*
   //accelerator
@@ -81,8 +80,8 @@ void updatePlayer(){
 
   //collisions
   player.x += player.vx;
-  currentTile = getTile(player.x, player.y);
-  if(currentTile >= 8){
+  currentTile = getTile(player.x/16, player.y/16);
+  if(currentTile == 1){
     player.x -= player.vx;
     if(currentTile == 8){//bouncer
       if(player.vx >= 0)
@@ -100,7 +99,7 @@ void updatePlayer(){
 
   player.y += player.vy;
   currentTile = getTile(player.x/16, player.y/16);
-  if(currentTile >= 8){
+  if(currentTile == 1){
     player.y -= player.vy;
     if(currentTile == 8){//bouncer
       if(player.vy >= 0)
@@ -129,10 +128,10 @@ void drawPlayer(){
   int x_screen = (int)player.x - camera_x;
   int y_screen = (int)player.y - camera_y;
   if(!(x_screen < -16 || x_screen > LCDWIDTH || y_screen < -16 || y_screen > LCDHEIGHT)){
-   // gb.display.fillCircle(x_screen, y_screen, player.radius);
-   // gb.display.setColor(WHITE);
+   gb.display.fillCircle(x_screen, y_screen, player.radius);
+    gb.display.setColor(WHITE);
     gb.display.drawLine(x_screen,y_screen,x_screen+cos(player.angle)*4, y_screen+sin(player.angle)*4);
-    //gb.display.setColor(BLACK);
+    gb.display.setColor(BLACK);
   }
 }
 
