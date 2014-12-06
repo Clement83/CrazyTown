@@ -1,5 +1,4 @@
-unsigned int time = 0;
-boolean countingTime = false;
+
 
 void initTime(){
   time = 0;
@@ -7,7 +6,7 @@ void initTime(){
 }
 
 void updateTime(){
-  if(getTile(player.x/16, player.y/16) == 7){
+  /*if(getTile(player.x/16, player.y/16) == 7){
     if(!countingTime){
       countingTime = true;
       time = 0;
@@ -21,17 +20,11 @@ void updateTime(){
         initPlayer();
       }
     }
-  }
+  }*/
   if(countingTime){
     time++;
   }
 }
 
-void drawTime(){
-  gb.display.cursorX = 0;
-  gb.display.cursorY = LCDHEIGHT - gb.display.fontHeight;
-  gb.display.setColor(BLACK,WHITE);
-  gb.display.print(time);
-}
 
 

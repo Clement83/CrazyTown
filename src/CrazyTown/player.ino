@@ -1,9 +1,4 @@
-typedef struct {
-  float x, y, v, vx, vy, angle;
-  byte radius;
-} Ufo;
 
-Ufo player;
 
 void initPlayer(){
   player.radius = 3;
