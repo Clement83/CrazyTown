@@ -78,17 +78,9 @@ void updatePlayer(){
   currentTile = getTile(player.x/16, player.y/16);
   if(currentTile == 1){
     player.x -= player.vx;
-    if(currentTile == 8){//bouncer
-      if(player.vx >= 0)
-        player.vx = -6;
-      else
-        player.vx = 6;
-      gb.sound.playOK();
-    }
-    else { //regular blocks
+
       player.vx *= -0.5;
       gb.sound.playTick();
-    }
     player.v *= 0.5;
   }
 
@@ -96,19 +88,11 @@ void updatePlayer(){
   currentTile = getTile(player.x/16, player.y/16);
   if(currentTile == 1){
     player.y -= player.vy;
-    if(currentTile == 8){//bouncer
-      if(player.vy >= 0)
-        player.vy = -6;
-      else
-        player.vy = 6;
-      gb.sound.playOK();
-    }
-    else{ //regular blocks
       player.vy *= -0.5;
       gb.sound.playTick();
-    }
     player.v *= 0.5;
   }
+  distTotal += player.v;
 
   //target position of the camera for the cursor to be centered
   int camera_x_target = player.x + cos(player.angle)*player.v*64 - LCDWIDTH/2;

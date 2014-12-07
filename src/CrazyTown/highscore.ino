@@ -13,18 +13,21 @@ void initHighscore(){
     }
     highscore[thisScore] = EEPROM.read(NAMELENGTH + thisScore*(NAMELENGTH+2)) & 0x00FF; //LSB
     highscore[thisScore] += (EEPROM.read(NAMELENGTH+1 + thisScore*(NAMELENGTH+2)) << 8) & 0xFF00; //MSB
-    highscore[thisScore] = (highscore[thisScore]==0) ? 9999 : highscore[thisScore];
+    highscore[thisScore] = (highscore[thisScore]==9999) ? 0 : highscore[thisScore];
   }
 }
-
+bool haveNewHightScore()
+{
+  return score > highscore[NUM_HIGHSCORE-1];
+}
 void saveHighscore(unsigned int score){
-  if(score < highscore[NUM_HIGHSCORE-1]){//if it's a highscore
-    if(drawNewHighscore(score)){
+  if(haveNewHightScore()){//if it's a highscore
+    //if(drawNewHighscore(score)){
       gb.getDefaultName(name[NUM_HIGHSCORE-1]);
       gb.keyboard(name[NUM_HIGHSCORE-1], NAMELENGTH+1);
       highscore[NUM_HIGHSCORE-1] = score;
       for(byte i=NUM_HIGHSCORE-1; i>0; i--){ //bubble sorting FTW
-        if(highscore[i-1] > highscore[i]){
+        if(highscore[i-1] < highscore[i]){
           char tempName[NAMELENGTH];
           strcpy(tempName, name[i-1]);
           strcpy(name[i-1], name[i]);
@@ -46,11 +49,11 @@ void saveHighscore(unsigned int score){
         EEPROM.write(NAMELENGTH+1 + thisScore*(NAMELENGTH+2), (highscore[thisScore] >> 8) & 0x00FF); //MSB
       }
       drawHighScores();
-    }
+    //}
   }
-  else{
+  /*else{
     gb.popup(F("NEW LAP!"),20);
-  }
+  }*/
 }
 
 void drawHighScores(){
@@ -58,7 +61,7 @@ void drawHighScores(){
     if(gb.update()){
       gb.display.cursorX = 9+random(0,2);
       gb.display.cursorY = 0+random(0,2);
-      gb.display.println(F("BEST TIMES"));
+      gb.display.println(F("BEST SCORE"));
       gb.display.textWrap = false;
       gb.display.cursorX = 0;
       gb.display.cursorY = gb.display.fontHeight;
@@ -78,7 +81,7 @@ void drawHighScores(){
     }
   }
 }
-
+/*
 boolean drawNewHighscore(unsigned int score){
   gb.sound.playPattern(highscore_sound, 0);
   while(1){
@@ -107,7 +110,7 @@ boolean drawNewHighscore(unsigned int score){
       }
     }
   }
-}
+}*/
 
 
 

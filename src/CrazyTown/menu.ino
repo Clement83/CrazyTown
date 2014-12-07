@@ -1,54 +1,44 @@
-#define PAUSEMENULENGTH 4
-const char strPlay[] PROGMEM = "Play";
+#define PAUSEMENULENGTH 6
+const char strContinue[] PROGMEM = "Continue";
+const char strPlay3[] PROGMEM = "3 min play";
+const char strPlay5[] PROGMEM = "5 min play";
+const char strPlay10[] PROGMEM = "10 min play";
 const char strHighScores[] PROGMEM = "High scores";
-const char strSystemInfo[] PROGMEM = "System Info";
+//const char strSystemInfo[] PROGMEM = "System Info";
 const char strMainMenu[] PROGMEM = "Main Menu";
 
 
 const char* const pauseMenu[PAUSEMENULENGTH] PROGMEM = {
-  strPlay,
+  strContinue,
+  strPlay3,
+  strPlay5,
+  strPlay10,
   strHighScores,
-  strSystemInfo,
   strMainMenu
 };
 
 void drawMenu(){
   switch(gb.menu(pauseMenu, PAUSEMENULENGTH)){
-  case 0: //play
-    initGame();
+  case 1: //play
+    initGame(3);
     play();
     break;
-  case 1: //high scores
-    drawHighScores();
+  case 2: //play
+    initGame(5);
+    play();
     break;
-  case 2: //System info
-    while (1) {
-      if (gb.update()) {
-        if (gb.buttons.pressed(BTN_C)) {
-          gb.sound.playCancel();
-          break;
-        }
-        //gb.display.setCursor(0, 0);
-        gb.display.print(F("Bat:"));
-        gb.display.print(gb.battery.voltage);
-        gb.display.println(F("mV"));
-
-        gb.display.print(F("Bat lvl:"));
-        gb.display.print(gb.battery.level);
-        gb.display.println(F("/4"));
-
-        gb.display.print(F("Light:"));
-        gb.display.println(gb.backlight.ambientLight);
-
-        gb.display.print(F("Backlight:"));
-        gb.display.println(gb.backlight.backlightValue);
-
-        gb.display.print(F("Volume:"));
-        gb.display.print(gb.sound.getVolume());
-        gb.display.print(F("/"));
-        gb.display.println(gb.sound.volumeMax);
-      }
+  case 3: //play
+    initGame(10);
+    play();
+    break;
+  case 0: //continue
+    if(timeleft>0)
+    {
+      play();
     }
+    break;
+  case 4: //Hight score
+    drawHighScores();
     break;
   default: //title screen
     drawTitleScreen();

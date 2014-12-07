@@ -41,7 +41,9 @@ void updateClient()
     {
       //On monte dans le taxi
       numClient = i;
+      ResetTime();
       countingTime = true;
+      gb.sound.playOK();
       //xDest
       //yDest
       
@@ -67,7 +69,8 @@ void updateClient()
       {
         score++;
         numClient = -1;
-        initTime();
+        StopTime();
+        gb.sound.playOK();
       }
     }
   }
