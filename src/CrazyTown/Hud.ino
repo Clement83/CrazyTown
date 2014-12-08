@@ -22,11 +22,23 @@ void drawHud(){
     gb.display.setColor(BLACK, WHITE);
     gb.display.setFont(font3x3);
     displayInt(timeleft,0,0,5);
-    
     displayInt(time,60,0,5);
     displayInt(score,69,45,4);
+  if(numClient>-1)
+  {
+    gb.display.setColor(BLACK);
+    gb.display.fillRoundRect(27, 0, 20, 7, 3);
+    gb.display.setColor(INVERT);
+  }
+  else 
+  {
+    gb.display.setColor(WHITE);
+    gb.display.fillRoundRect(27, 0, 20, 7, 3);
+    gb.display.setColor(BLACK);
+    gb.display.drawRoundRect(27, 0, 20, 7, 3);
+  }
+    displayText("TAXI",30,2);
 
     gb.display.setFont(font3x5);
     gb.display.setColor(BLACK);
-
 }

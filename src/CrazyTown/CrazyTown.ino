@@ -13,6 +13,7 @@ void displayText(String s, byte x, byte y);
 void displayInt(long l, byte Tx, byte Ty, byte fig);
 void displayInt(long l, byte fig);
 void initTime(int tempMax);
+void drawBitmapAngle(int8_t x, int8_t y, const uint8_t *bitmap,float angle);
 
 typedef struct {
   float x, y, v, vx, vy, angle;
@@ -85,15 +86,12 @@ void play(){
 
 
 //101 starship function
-void displayText(String s, byte x, byte y, byte t){
+void displayText(String s, byte x, byte y){
   gb.display.cursorX = x;
   gb.display.cursorY = y;  
-  gb.display.fontSize = t;
   gb.display.print(s);
 }
-void displayText(String s, byte x, byte y){
-  displayText(s,x,y,1);
-}
+
 void displayInt(long l, byte Tx, byte Ty, byte fig){
   gb.display.fontSize = 1;
   String sl = String(l);

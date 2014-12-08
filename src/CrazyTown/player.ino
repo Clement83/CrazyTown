@@ -1,5 +1,6 @@
 
-
+const byte PetitTaxi[] PROGMEM = {16,8,0xFF,0xD0,0xC0,0x30,0xD6,0xB0,0x99,0xA0,0x99,0xA0,0xD6,0xB0,0xC0,0x30,0xFF,0xD0,};
+const byte GrandTaxi[] PROGMEM = {24,9,0xFF,0xFF,0xA0,0xC0,0x0,0x60,0xCD,0xB5,0xE0,0x96,0xC,0x60,0x96,0x4C,0x40,0x96,0xC,0x60,0xCD,0xB5,0xE0,0xC0,0x0,0x60,0xFF,0xFF,0xA0,};
 void initPlayer(){
   player.radius = 3;
   player.x = 20;
@@ -107,10 +108,11 @@ void drawPlayer(){
   int x_screen = (int)player.x - camera_x;
   int y_screen = (int)player.y - camera_y;
   if(!(x_screen < -16 || x_screen > LCDWIDTH || y_screen < -16 || y_screen > LCDHEIGHT)){
-   gb.display.fillCircle(x_screen, y_screen, player.radius);
+   /*gb.display.fillCircle(x_screen, y_screen, player.radius);
     gb.display.setColor(WHITE);
     gb.display.drawLine(x_screen,y_screen,x_screen+cos(player.angle)*4, y_screen+sin(player.angle)*4);
-    gb.display.setColor(BLACK);
+    gb.display.setColor(BLACK);*/
+    drawBitmapAngle(x_screen, y_screen, GrandTaxi,player.angle);
   }
 }
 
