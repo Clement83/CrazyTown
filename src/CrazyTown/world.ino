@@ -46,11 +46,12 @@ const byte * GetSpriteById(byte idSprite)
   }
 }
 
-#define NB_ZONE 8
+#define NB_ZONE 10
 //x1,y1, x2 ,y2, tuile
 const byte Zones[NB_ZONE*5] PROGMEM = 
 {
-  0,0,127,31,3,
+  19,0,118,31,3,
+  56,68,64,74,0,
   0,32,32,62,0,
   47,94,86,116,0,
   42,35,93,57,5,
@@ -58,6 +59,7 @@ const byte Zones[NB_ZONE*5] PROGMEM =
   98,35,110,44,3,
   111,49,119,60,3,
   47,94,127,127,4,
+  14,116,30,123,3,
 };
 
 
@@ -70,7 +72,6 @@ const byte world[(WORLD_W/8)*WORLD_H] PROGMEM = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0
 
 
 byte getTile(byte x, byte y){
-  //Serial.print(y);  Serial.print(" <= y | x => "); Serial.print(x);Serial.print(" || ");
   //le decalage dépend de la position du joueur je divise x/8 car j'ai 8 bit dans un byte. puis je décale du nombre de bit util pour ne garder que le premier
   return (pgm_read_byte(world + (y*16) + x/8) >> (7-((x%8)))& B00000001);
 }

@@ -9,6 +9,7 @@ void initPlayer(){
   player.vx = 0;
   player.vy = 0;
   player.angle = 0;
+  numClient=-1;
 }
 
 void updatePlayer(){
@@ -93,7 +94,13 @@ void updatePlayer(){
       gb.sound.playTick();
     player.v *= 0.5;
   }
-  distTotal += player.v;
+  
+  distTotal += 8 * ((player.v<0)? -player.v : player.v)  ;
+  if(numClient>-1)
+  {
+    //le compteur tourne !
+    distClient += 8 * ((player.v<0)? -player.v : player.v ) ;
+  }
 
   //target position of the camera for the cursor to be centered
   int camera_x_target = player.x + cos(player.angle)*player.v*64 - LCDWIDTH/2;

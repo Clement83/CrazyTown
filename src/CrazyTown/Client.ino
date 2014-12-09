@@ -1,8 +1,9 @@
-#define DIST_RECUP_DEPOS 10
+#define DIST_RECUP_DEPOS 16
 #define NB_CLIENT 4
 //x1,y1
 int Clients[NB_CLIENT*2];
-const byte Client1[] PROGMEM = {8,8,0x38,0xB9,0x92,0x7C,0x10,0x10,0x28,0x44,};
+const byte Client1[] PROGMEM = {
+  8,8,0x38,0xB9,0x92,0x7C,0x10,0x10,0x28,0x44,};
 
 
 void updateClient()
@@ -10,68 +11,71 @@ void updateClient()
   //MAJ des clients
   for(int i =0;i<NB_CLIENT;i++)
   {
-    if(numClient==i) 
+    if(numClient==i)
       continue;//Client an taxi on l'affiche pas
-    
+
     int x = Clients[i*2];
     int y = Clients[i*2 + 1];
     int camXCenter = player.x; // camera_x + LCDHEIGHT/2;
     int camYCenter = player.y; //camera_y + LCDWIDTH/2;
     int dist =sqrt( pow(x-camXCenter,2) + pow(y-camYCenter,2));
-    
+
     if(dist>150)
     {
       do
       {
         Clients[i*2]  = camXCenter + random(-LCDWIDTH*2,LCDWIDTH*2);
         Clients[i*2 + 1] = camYCenter  + random(-LCDHEIGHT*2,LCDHEIGHT*2);
-     /* Serial.print(x);Serial.print(" <= x cli, y=> ");Serial.print(y);Serial.print(" | ");
-      Serial.print(camera_x);Serial.print(" <= x cam, y=> ");Serial.print(camera_y);Serial.print(" | ");*/
+
         byte spriteID = getTile(Clients[i*2]/16,Clients[i*2 + 1]/16);
         if(spriteID == 0)
         {
-          //Serial.print(player.x);Serial.print(" <= x , y=> ");Serial.print(player.y);Serial.print(" | ");
-          //Serial.print("new client : [x,y] ["); Serial.print( Clients[i*2]);Serial.print(",");Serial.print(Clients[i*2 + 1]);Serial.println("]");
-
           break;
         }
-        
-      }while(true);
+
+      }
+      while(true);
     }
-    else if(dist<DIST_RECUP_DEPOS &&  sqrt(pow(player.v,2))<1 && numClient==-1)
+    else if(numClient==-1 && dist<DIST_RECUP_DEPOS &&  sqrt(pow(player.v,2))<0.1)
     {
       //On monte dans le taxi
       numClient = i;
       ResetTime();
       countingTime = true;
       gb.sound.playOK();
-      //xDest
-      //yDest
-      
+
       do
       {
-          xDest  = random (100,2000);
-          yDest = random (100,2000);
+        xDest  = random (100,2000);
+        yDest = random (100,2000);
         byte spriteID = getTile(xDest/16,yDest/16);
         if(spriteID == 0)
         {
-          //Serial.print(xDest);Serial.print(" <= x , y=> ");Serial.print(yDest);Serial.print(" | ");
           break;
         }
-        
-      }while(true);
+
+      }
+      while(true);
+
+      int DB = xDest - player.x;
+      int AD = yDest - player.y ;
+      distNext = sqrt( pow( DB,2) + pow(AD,2));//distance du prochain point
+
     }
     if(numClient>-1)
     {
       int DB = xDest - player.x;
       int AD = yDest - player.y ;
       float AB = sqrt( pow( DB,2) + pow(AD,2));
-      if(AB<DIST_RECUP_DEPOS)
+      if(AB<DIST_RECUP_DEPOS &&  sqrt(pow(player.v,2))<0.1)
       {
-        score++;
+        nbClient++;
         numClient = -1;
         StopTime();
+        xDest  = -20;
+        yDest = -20;
         gb.sound.playOK();
+        upgradeScore();
       }
     }
   }
@@ -81,27 +85,23 @@ void DrawClient()
 {
   for(int i =0;i<NB_CLIENT;i++)
   {
-    if(numClient==i) 
+    if(numClient==i)
       continue;//Client an taxi on l'affiche pas
-      
+
     int x = Clients[i*2];
     int y = Clients[i*2 + 1];
     int x_screen = x - camera_x;
     int y_screen = y - camera_y;
     if(!(x_screen < -16 || x_screen > LCDWIDTH || y_screen < -16 || y_screen > LCDHEIGHT)){
-      //gb.display.fillCircle(x_screen, y_screen, 2);
-      
-       gb.display.drawBitmap(x_screen, y_screen, Client1);
-   }
-  }
-  
-  int x_screen = xDest - camera_x;
-    int y_screen = yDest - camera_y;
-    if(!(x_screen < -16 || x_screen > LCDWIDTH || y_screen < -16 || y_screen > LCDHEIGHT)){
-//      gb.display.fillCircle(x_screen, y_screen, 2);
-      gb.display.drawCircle(x_screen, y_screen, 4);
-      gb.display.drawCircle(x_screen, y_screen, 1);
+      gb.display.drawBitmap(x_screen, y_screen, Client1);
     }
-  
-  
+  }
+
+  int x_screen = xDest - camera_x;
+  int y_screen = yDest - camera_y;
+  if(!(x_screen < -16 || x_screen > LCDWIDTH || y_screen < -16 || y_screen > LCDHEIGHT)){
+    gb.display.drawCircle(x_screen, y_screen, 4);
+    gb.display.drawCircle(x_screen, y_screen, 1);
+  }
 }
+

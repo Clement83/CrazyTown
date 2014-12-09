@@ -18,7 +18,7 @@ void initHighscore(){
 }
 bool haveNewHightScore()
 {
-  return score > highscore[NUM_HIGHSCORE-1];
+  return leScoreTotal > highscore[NUM_HIGHSCORE-1];
 }
 void saveHighscore(unsigned int score){
   if(haveNewHightScore()){//if it's a highscore

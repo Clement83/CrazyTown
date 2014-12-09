@@ -28,8 +28,11 @@ int yDest;
 int numClient = -1;
 unsigned int time = 0;
 unsigned int timeleft = 0;
-unsigned int score = 0;
-unsigned long distTotal = 0;
+unsigned int leScoreTotal = 0;
+unsigned int nbClient = 0;
+float distTotal = 0;//total du run
+float distNext = 0;//distance a vol d'oiseau du prochain client
+float distClient = 0;//distance reelement parcouru pour aller au client
 boolean countingTime = false;
 
 //global variables
@@ -53,6 +56,10 @@ void initGame(int tempMax){
   gb.battery.show = false;
   initPlayer();
   distTotal = 0;
+  distNext = 0;
+  distClient = 0;
+  nbClient = 0;
+  leScoreTotal = 0;
   initTime(tempMax);
 }
 
