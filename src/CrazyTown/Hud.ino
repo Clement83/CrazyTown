@@ -7,8 +7,6 @@ void drawHud()
   gb.display.setColor(BLACK);
   gb.display.drawCircle(4, 43, 4);
 
-  //gb.display.cursorX = 15;
-  //gb.display.cursorY = 0;
   gb.display.setColor(BLACK, WHITE);
   gb.display.setFont(font3x3);
   displayInt(timeleft,0,0,5);

@@ -12,14 +12,14 @@ void updateClient()
   for(int i =0;i<NB_CLIENT;i++)
   {
     if(numClient==i)
-      continue;//Client an taxi on l'affiche pas
+      continue;//Client dans le taxi on ne l'affiche pas
 
     int x = Clients[i*2];
     int y = Clients[i*2 + 1];
     int camXCenter = player.x; // camera_x + LCDHEIGHT/2;
     int camYCenter = player.y; //camera_y + LCDWIDTH/2;
     int dist =sqrt( pow(x-camXCenter,2) + pow(y-camYCenter,2));
-
+    byte spriteID = 1;
     if(dist>150)
     {
       do
@@ -27,41 +27,32 @@ void updateClient()
         Clients[i*2]  = camXCenter + random(-LCDWIDTH*2,LCDWIDTH*2);
         Clients[i*2 + 1] = camYCenter  + random(-LCDHEIGHT*2,LCDHEIGHT*2);
 
-        byte spriteID = getTile(Clients[i*2]/16,Clients[i*2 + 1]/16);
-        if(spriteID == 0)
-        {
-          break;
-        }
-
+        spriteID = getTile(Clients[i*2]/16,Clients[i*2 + 1]/16);
       }
-      while(true);
+      while(spriteID != 0);
     }
-    else if(numClient==-1 && dist<DIST_RECUP_DEPOS &&  sqrt(pow(player.v,2))<0.1)
+    else if(numClient==-1 && dist<DIST_RECUP_DEPOS &&  abs(player.v)<0.1)
     {
       //On monte dans le taxi
       numClient = i;
       ResetTime();
       countingTime = true;
       gb.sound.playOK();
-
+ byte spriteID = 1;
       do
       {
         xDest  = random (100,2000);
         yDest = random (100,2000);
-        byte spriteID = getTile(xDest/16,yDest/16);
-        if(spriteID == 0)
-        {
-          break;
-        }
-
+       spriteID = getTile(xDest/16,yDest/16);
       }
-      while(true);
+      while(spriteID != 0);
 
       int DB = xDest - player.x;
       int AD = yDest - player.y ;
       distNext = sqrt( pow( DB,2) + pow(AD,2));//distance du prochain point
 
     }
+  }
     if(numClient>-1)
     {
       int DB = xDest - player.x;
@@ -78,7 +69,6 @@ void updateClient()
         upgradeScore();
       }
     }
-  }
 }
 
 void DrawClient()

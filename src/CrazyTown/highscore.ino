@@ -13,16 +13,17 @@ void initHighscore(){
     }
     highscore[thisScore] = EEPROM.read(NAMELENGTH + thisScore*(NAMELENGTH+2)) & 0x00FF; //LSB
     highscore[thisScore] += (EEPROM.read(NAMELENGTH+1 + thisScore*(NAMELENGTH+2)) << 8) & 0xFF00; //MSB
-    highscore[thisScore] = (highscore[thisScore]==9999) ? 0 : highscore[thisScore];
+    highscore[thisScore] = /*(highscore[thisScore]==9999) ? 0 : */ highscore[thisScore];
   }
 }
+
 bool haveNewHightScore()
 {
   return leScoreTotal > highscore[NUM_HIGHSCORE-1];
 }
+
 void saveHighscore(unsigned int score){
   if(haveNewHightScore()){//if it's a highscore
-    //if(drawNewHighscore(score)){
       gb.getDefaultName(name[NUM_HIGHSCORE-1]);
       gb.keyboard(name[NUM_HIGHSCORE-1], NAMELENGTH+1);
       highscore[NUM_HIGHSCORE-1] = score;
@@ -49,11 +50,7 @@ void saveHighscore(unsigned int score){
         EEPROM.write(NAMELENGTH+1 + thisScore*(NAMELENGTH+2), (highscore[thisScore] >> 8) & 0x00FF); //MSB
       }
       drawHighScores();
-    //}
   }
-  /*else{
-    gb.popup(F("NEW LAP!"),20);
-  }*/
 }
 
 void drawHighScores(){
@@ -81,36 +78,6 @@ void drawHighScores(){
     }
   }
 }
-/*
-boolean drawNewHighscore(unsigned int score){
-  gb.sound.playPattern(highscore_sound, 0);
-  while(1){
-    if(gb.update()){
-      gb.display.cursorX = 2+random(0,2);
-      gb.display.cursorY = 0+random(0,2);
-      gb.display.print(F("NEW HIGHSCORE"));
-      gb.display.cursorX = 0;
-      gb.display.cursorY = 12;
-      gb.display.print(F("Your time "));
-      gb.display.print(score);
-      gb.display.print(F("\nBest      "));
-      gb.display.print(highscore[0]);
-      gb.display.print(F("\nWorst     "));
-      gb.display.print(highscore[NUM_HIGHSCORE-1]);
-      gb.display.cursorX = 0;
-      gb.display.cursorY = 40;
-      gb.display.print(F("\25:Save \27:Exit"));
-      if(gb.buttons.pressed(BTN_A)){
-        gb.sound.playOK();
-        return true;
-      }
-      if(gb.buttons.pressed(BTN_C)){
-        gb.sound.playCancel();
-        return false;
-      }
-    }
-  }
-}*/
 
 
 

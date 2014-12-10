@@ -83,7 +83,6 @@ void play(){
       updateTime();
       updateClient();
       drawWorld();
-      drawMap();
       drawPlayer();
       DrawClient();
       drawHud();

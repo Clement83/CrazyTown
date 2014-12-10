@@ -1,8 +1,8 @@
-#define NB_FRAME 20
+#define NB_FRAME 40
 void GameOverScreen()
 {
   uint8_t cptFrame = NB_FRAME;
-  int scoreCpt = 0;
+  float scoreCpt = 0;
   while(true)
   {
     if(gb.update()){
@@ -45,7 +45,7 @@ void GameOverScreen()
 void upgradeScore()
 {
   int diff =  (distClient * 100 / distNext)-100;
-  leScoreTotal += distNext/diff;  
+  leScoreTotal += distNext/max(2,diff);  
   distNext = 0;
   distClient = 0;
 }
