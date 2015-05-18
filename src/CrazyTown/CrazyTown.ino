@@ -1,3 +1,9 @@
+/*******
+* 2014
+* By clement http://quintard.me
+* thx to Quirby64 for taxi graphic 
+*********/
+
 #include <SPI.h>
 #include <Gamebuino.h>
 Gamebuino gb;
